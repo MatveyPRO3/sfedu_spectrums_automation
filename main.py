@@ -40,6 +40,6 @@ def update(frame):
     ax.set_ylim(-2.5,2.5)
     ax.set_xlim(400,700)
 
-ani = FuncAnimation(fig, update, interval=50)
+ani = FuncAnimation(fig, update, interval=1)
 
 plt.show()
