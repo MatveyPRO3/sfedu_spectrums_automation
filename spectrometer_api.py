@@ -1,4 +1,5 @@
 from seabreeze.spectrometers import list_devices, Spectrometer
+import numpy as np
 
 print("Initializing spectrometer...")
 print("Devices found:",list_devices())
@@ -10,4 +11,5 @@ def change_integration_time_micros(integration_time_micros):
     spec.integration_time_micros(integration_time_micros)
 
 def measure_and_get_data() -> list:
-    return {wavelength:intensity for wavelength, intensity in zip(spec.wavelengths(), spec.intensities())}
+    # return {wavelength:intensity for wavelength, intensity in zip(spec.wavelengths(), spec.intensities())}
+    return np.column_stack((spec.wavelengths(), spec.intensities()))
