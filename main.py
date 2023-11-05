@@ -7,12 +7,16 @@ import spectrometer_api as spec_api
 from datetime import datetime as dt
 from os import makedirs
 
-save_spectrums = True
+save_spectrums = False
 
 makedirs("output",exist_ok=True)
 
 def absorption_spectrum_processing(x, point_1,point_2,point_3):
-    return np.log10((x-point_1-point_3) / (point_2-point_1-point_3)) * (-20)  
+    # return np.log10((x-point_1-point_3) / (point_2-point_1-point_3)) * (-1)  
+    try:
+        return np.log10((x-point_3) / (point_2-point_3)) * (-1)  
+    except ZeroDivisionError:
+        return 0
 absorption_spectrum_processing = np.vectorize(absorption_spectrum_processing)
 
 def save_spectrums_to_file(intensities):
@@ -45,7 +49,7 @@ def update(frame):
         save_spectrums_to_file(data)
     ax.clear()  # Clear the current axes
     ax.plot(wave_lengths, data)  # Redraw the plot with updated data
-    ax.set_ylim(-45,45)
+    ax.set_ylim(-2,2)
     ax.set_xlim(400,700)
 
 ani = FuncAnimation(fig, update, interval=1)
